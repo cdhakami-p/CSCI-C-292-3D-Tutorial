@@ -20,6 +20,8 @@ public class GameSetup : MonoBehaviour
         ballRadius = ballPrefab.GetComponent<SphereCollider>().radius * 100f;
         ballDiameter = ballRadius * 2f;
 
+        Debug.Break();
+
         PlaceAllBalls();
     }
 
@@ -98,11 +100,11 @@ public class GameSetup : MonoBehaviour
                 }
 
                 // Move to the next position in the row
-                currentPosition += new Vector3(1, 0, 0).normalized * ballDiameter;
+                currentPosition += new Vector3(0, 0, -1).normalized * ballDiameter;
             }
 
             // Move to the start of the next row
-            firstInRowPosition += new Vector3(-1, 0, -1).normalized * ballDiameter;
+            firstInRowPosition += Vector3.left * (Mathf.Sqrt(3) * ballRadius) + Vector3.forward * ballRadius;
             currentPosition = firstInRowPosition;
             NumInThisRow++;
         }
