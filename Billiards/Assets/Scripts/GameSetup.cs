@@ -14,8 +14,7 @@ public class GameSetup : MonoBehaviour
     [SerializeField] Transform cueBallPosition;
     [SerializeField] Transform headBallPosition;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         ballRadius = ballPrefab.GetComponent<SphereCollider>().radius * 100f;
         ballDiameter = ballRadius * 2f;
