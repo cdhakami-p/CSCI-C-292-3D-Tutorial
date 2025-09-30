@@ -35,6 +35,12 @@ public class CameraController : MonoBehaviour
 
             transform.RotateAround(cueBall.position, Vector3.up, horizontalInput);
         }
+
+        //Temporary reset camera position
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ResetCamera();
+        }
     }
 
     public void ResetCamera()
