@@ -9,12 +9,17 @@ public class CameraController : MonoBehaviour
     [SerializeField] Vector3 offset;
     [SerializeField] float downAngle;
     [SerializeField] float power;
+    [SerializeField] GameObject cueStick;
 
     private float horizontalInput;
+
+    GameManager gameManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+
         foreach (GameObject ball in GameObject.FindGameObjectsWithTag("Ball"))
         {
             if (ball.GetComponent<Ball>().IsCueBall())
@@ -43,12 +48,14 @@ public class CameraController : MonoBehaviour
             ResetCamera();
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && gameObject.GetComponent<Camera>().enabled)
         {
             Vector3 hitDirection = transform.forward;
             hitDirection = new Vector3(hitDirection.x, 0f, hitDirection.z).normalized;
 
             cueBall.gameObject.GetComponent<Rigidbody>().AddForce(hitDirection * power, ForceMode.Impulse);
+            cueStick.SetActive(false);
+            gameManager.SwitchCameras();
         }
     }
 
@@ -57,5 +64,7 @@ public class CameraController : MonoBehaviour
         transform.position = cueBall.position + offset;
         transform.LookAt(cueBall.position);
         transform.localEulerAngles = new Vector3(downAngle, transform.localEulerAngles.y, 0f);
+
+        cueStick.SetActive(true);
     }
 }
