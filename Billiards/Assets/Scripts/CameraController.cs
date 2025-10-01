@@ -8,6 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] float rotationSpeed;
     [SerializeField] Vector3 offset;
     [SerializeField] float downAngle;
+    [SerializeField] float power;
 
     private float horizontalInput;
 
@@ -40,6 +41,14 @@ public class CameraController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetCamera();
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Vector3 hitDirection = transform.forward;
+            hitDirection = new Vector3(hitDirection.x, 0f, hitDirection.z).normalized;
+
+            cueBall.gameObject.GetComponent<Rigidbody>().AddForce(hitDirection * power, ForceMode.Impulse);
         }
     }
 
