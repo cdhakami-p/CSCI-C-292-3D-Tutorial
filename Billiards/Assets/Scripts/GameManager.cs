@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     bool isWaitingForBallMovementToStop = false;
     bool willSwapPlayers = false;
     bool isGameOver = false;
+    bool resetCueBall = false;
 
     bool ballPocketed = false;
 
@@ -69,6 +70,13 @@ public class GameManager : MonoBehaviour
             if (allStopped)
             {
                 isWaitingForBallMovementToStop = false;
+
+                if (resetCueBall)
+                {
+                    ResetCueBall();
+                    resetCueBall = false;
+                }
+
                 if (willSwapPlayers || !ballPocketed)
                 {
                     NextPlayerTurn();
@@ -204,6 +212,7 @@ public class GameManager : MonoBehaviour
                     //NextPlayerTurn();
                     isWaitingForBallMovementToStop = true;
                     willSwapPlayers = true;
+                    resetCueBall = true;
                 }
             }
             else
@@ -220,6 +229,7 @@ public class GameManager : MonoBehaviour
                     //NextPlayerTurn();
                     isWaitingForBallMovementToStop = true;
                     willSwapPlayers = true;
+                    resetCueBall = true;
                 }
             }
         }
@@ -274,6 +284,20 @@ public class GameManager : MonoBehaviour
                 other.gameObject.transform.position = headPosition.position;
                 other.gameObject.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
                 other.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            }
+        }
+    }
+
+    void ResetCueBall()
+    {
+        foreach (GameObject ball in GameObject.FindGameObjectsWithTag("Ball"))
+        {
+            if (ball.GetComponent<Ball>().IsCueBall())
+            {
+                ball.transform.position = headPosition.position;
+                ball.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+                ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                break;
             }
         }
     }
